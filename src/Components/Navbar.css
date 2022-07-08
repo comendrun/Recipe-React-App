@@ -1,0 +1,31 @@
+.navbar {
+  width: 100%;
+  background-color: #8ac926;
+  padding: 1rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  /* margin: 0.5rem 4rem; */
+  padding: 0.5rem 4rem 0.5rem 4rem;
+}
+.navbar a {
+  text-decoration: none;
+  color: white;
+}
+
+.brand {
+}
+
+.navbar__create-recipe {
+  margin-left: auto;
+  border: 1px solid white;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+.navbar__create-recipe:hover {
+  background-color: white;
+  color: #8ac926;
+  transition: all 0.2s ease;
+}
