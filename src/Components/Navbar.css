@@ -1,14 +1,16 @@
 .navbar {
   width: 100%;
   background-color: #8ac926;
-  padding: 1rem;
+  padding-block: 1rem;
 }
 
 nav {
+  max-width: 1100px;
   display: flex;
   align-items: center;
-  /* margin: 0.5rem 4rem; */
-  padding: 0.5rem 4rem 0.5rem 4rem;
+  gap: 1rem;
+  padding-inline: 1rem;
+  color: white;
 }
 .navbar a {
   text-decoration: none;
@@ -16,10 +18,10 @@ nav {
 }
 
 .brand {
+  margin-right: auto;
 }
 
 .navbar__create-recipe {
-  margin-left: auto;
   border: 1px solid white;
   padding: 0.5rem 1rem;
   transition: all 0.2s ease;

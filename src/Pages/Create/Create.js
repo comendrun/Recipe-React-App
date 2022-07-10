@@ -1,5 +1,7 @@
 import "./Create.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch";
+import { useHistory } from "react-router-dom";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -8,12 +10,34 @@ export default function Create() {
   const [newIngredient, setNewIngredients] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [isDuplicate, setIsDuplicate] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const ingredientsInput = useRef(null);
+
+  const history = useHistory();
+
+  const { postData, data, error } = useFetch(
+    "http://localhost:3000/recipes",
+    "POST"
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(title, method, cookingTime, ingredients);
+    postData({
+      title,
+      ingredients,
+      method,
+      cookingTime: cookingTime + " minutes",
+    });
   };
+
+  useEffect(() => {
+    if (data) {
+      setIsFinished(true);
+      setTimeout(() => {
+        history.push("/").then(setIsFinished(false));
+      }, 3000);
+    }
+  }, [data, history]);
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -21,7 +45,9 @@ export default function Create() {
 
     // we don't want repeated ingredients
     // and also its not empty value
-    if (ingredients.includes(ing)) {
+    const lowerCasePreIngredients = ingredients.map(ing=>ing.toLowerCase())
+    const lowerCaseNewIng = ing.toLocaleLowerCase()
+    if (lowerCasePreIngredients.includes(lowerCaseNewIng)) {
       setIsDuplicate(true);
       setTimeout(() => {
         setIsDuplicate(false);
@@ -29,7 +55,7 @@ export default function Create() {
       return ingredientsInput.current.focus();
     }
 
-    if (ing && !ingredients.includes(ing)) {
+    if (ing && !lowerCasePreIngredients.includes(lowerCaseNewIng)) {
       setIsDuplicate(false);
       setIngredients((preValues) => [...preValues, ing]);
     }
@@ -92,6 +118,13 @@ export default function Create() {
         </label>
         <button className="btn submit-btn">Submit</button>
       </form>
+      <div className={`finished-message ${!isFinished && "hidden"}`}>
+        <p className="green">
+          Your Recipe was added to your database. you can access it on your
+          homepage.
+        </p>
+        <p className="blue">We are redirecting you to your homepage now ...</p>
+      </div>
     </div>
   );
 }

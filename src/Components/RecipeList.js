@@ -5,6 +5,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function RecipeList(props) {
+
+  if (props.recipes.length === 0){
+    return <div className="error">Unfortunately, no recipes to show.</div>
+  }
+
   return (
     <div className="recipe-list">
       {props.recipes.map((recipe) => {
